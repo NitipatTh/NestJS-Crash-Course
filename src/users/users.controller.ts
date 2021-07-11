@@ -45,8 +45,10 @@ export class UsersController {
   @ApiCreatedResponse({ type: User })
   @ApiBadRequestResponse()
   @Post()
-  createUser(@Body() body: CreateUserDto): Promise<User> {
-    return this.usersService.createUser(body.name);
+  createUser(
+    @Body() { name, username, password }: CreateUserDto,
+  ): Promise<User> {
+    return this.usersService.createUser(name, username, password);
   }
 
   @ApiCreatedResponse({ type: User })

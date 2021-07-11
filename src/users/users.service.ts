@@ -23,8 +23,8 @@ export class UsersService {
     }
   }
 
-  createUser(name: string): Promise<User> {
-    const newUser = this.usersRepository.create({ name });
+  createUser(name: string, username: string, password: string): Promise<User> {
+    const newUser = this.usersRepository.create({ name, username, password });
     return this.usersRepository.save(newUser);
   }
 
@@ -37,5 +37,19 @@ export class UsersService {
   async deleteUser(id: number): Promise<User> {
     const user = await this.findById(id);
     return this.usersRepository.remove(user);
+  }
+
+  async findByUsername(username: string): Promise<User> {
+    try {
+      const user = await this.usersRepository
+        .createQueryBuilder('user')
+        .select('user')
+        .where('user.username = :username', { username: username })
+        .getOne();
+      return user;
+    } catch (err) {
+      // handle error
+      throw err;
+    }
   }
 }
