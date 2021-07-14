@@ -14,13 +14,7 @@ export class UsersService {
   }
 
   async findById(userId: number): Promise<User> {
-    try {
-      const user = await this.usersRepository.findOneOrFail(userId);
-      return user;
-    } catch (err) {
-      // handle error
-      throw err;
-    }
+    return await this.usersRepository.findOne(userId);
   }
 
   createUser(name: string, username: string, password: string): Promise<User> {
